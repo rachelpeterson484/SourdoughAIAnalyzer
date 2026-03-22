@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Input } from './input';
-import { cn } from '../../lib/utils';
 
 interface AutocompleteOption {
   value: string;

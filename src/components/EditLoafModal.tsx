@@ -6,7 +6,7 @@ import { Textarea } from './ui/textarea';
 import { useLoaves, useRecipes } from '../hooks/useFirebaseStorage';
 import { Loaf, Recipe, Inclusion } from '../types';
 import { Upload, X, Star, Plus } from 'lucide-react';
-import { validateImageSize, compressImage } from '../utils/firebaseStorage';
+import { compressImage } from '../utils/firebaseStorage';
 
 interface EditLoafModalProps {
   loaf: Loaf;

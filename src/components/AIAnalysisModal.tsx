@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
@@ -20,7 +20,7 @@ export function AIAnalysisModal({ loaf, recipe, isOpen, onClose }: AIAnalysisMod
   const [error, setError] = React.useState<string | null>(null);
   const [expandedSections, setExpandedSections] = React.useState<Set<string>>(new Set(['overview']));
 
-  const runAnalysis = async () => {
+  const runAnalysis = useCallback(async () => {
     if (!loaf.crumbImageUrl) {
       setError("Crumb photo is required for AI analysis");
       return;
@@ -38,13 +38,13 @@ export function AIAnalysisModal({ loaf, recipe, isOpen, onClose }: AIAnalysisMod
     } finally {
       setIsAnalyzing(false);
     }
-  };
+  }, [loaf, recipe]);
 
   React.useEffect(() => {
     if (isOpen && loaf && recipe) {
       runAnalysis();
     }
-  }, [isOpen, loaf, recipe]);
+  }, [isOpen, loaf, recipe, runAnalysis]);
 
   const toggleSection = (section: string) => {
     const newExpanded = new Set(expandedSections);
