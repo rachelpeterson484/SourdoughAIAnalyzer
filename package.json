@@ -23,7 +23,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://rachelpeterson484.gitlab.io/sourdough-tracker",
+  "homepage": "https://rachelpeterson484.github.io/SourdoughAIAnalyzer",
   "eslintConfig": {
     "extends": [
       "react-app",
