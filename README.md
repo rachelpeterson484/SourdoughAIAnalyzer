@@ -22,7 +22,7 @@ A comprehensive web application for tracking and improving your sourdough baking
 - **Expert Recommendations**: Get personalized feedback on fermentation, technique, ingredients, and baking
 - **Contextual Insights**: AI considers your notes, inclusions, and bake parameters
 - **Actionable Steps**: Specific recommendations for your next bake
-- **Free Integration**: Uses Hugging Face's free AI models with fallback analysis
+- **Free Integration**: Uses Google Gemini's free AI models with fallback analysis
 
 ### **Analytics Dashboard**
 - Track baking progress over time
@@ -41,6 +41,6 @@ A comprehensive web application for tracking and improving your sourdough baking
 - **Frontend**: React 19, TypeScript, Tailwind CSS
 - **UI Components**: Radix UI, Lucide Icons
 - **Backend**: Firebase (Firestore, Authentication, Storage)
-- **AI/ML**: Hugging Face Vision Language Models
+- **AI/ML**: Google Gemini Vision Language Models
 - **Image Processing**: Canvas API with smart compression
 - **State Management**: React Hooks, Context API

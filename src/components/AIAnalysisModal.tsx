@@ -19,6 +19,7 @@ export function AIAnalysisModal({ loaf, recipe, isOpen, onClose }: AIAnalysisMod
   const [isAnalyzing, setIsAnalyzing] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [expandedSections, setExpandedSections] = React.useState<Set<string>>(new Set(['overview']));
+  const analysisInProgress = React.useRef(false);
 
   const runAnalysis = useCallback(async () => {
     if (!loaf.crumbImageUrl) {
@@ -26,6 +27,13 @@ export function AIAnalysisModal({ loaf, recipe, isOpen, onClose }: AIAnalysisMod
       return;
     }
 
+    // Prevent duplicate calls
+    if (analysisInProgress.current) {
+      console.log("Analysis already in progress, skipping...");
+      return;
+    }
+
+    analysisInProgress.current = true;
     setIsAnalyzing(true);
     setError(null);
 
@@ -37,14 +45,15 @@ export function AIAnalysisModal({ loaf, recipe, isOpen, onClose }: AIAnalysisMod
       console.error("Analysis error:", err);
     } finally {
       setIsAnalyzing(false);
+      analysisInProgress.current = false;
     }
   }, [loaf, recipe]);
 
   React.useEffect(() => {
-    if (isOpen && loaf && recipe) {
+    if (isOpen && loaf && recipe && !analysis && !isAnalyzing) {
       runAnalysis();
     }
-  }, [isOpen, loaf, recipe, runAnalysis]);
+  }, [isOpen, loaf, recipe, runAnalysis, analysis, isAnalyzing]);
 
   const toggleSection = (section: string) => {
     const newExpanded = new Set(expandedSections);

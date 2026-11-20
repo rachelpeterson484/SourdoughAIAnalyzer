@@ -37,6 +37,14 @@ export const validateImageFile = (file: File): { valid: boolean; error?: string 
     };
   }
 
+  // Check for HEIC format (not supported by most browsers)
+  if (file.type === 'image/heic' || file.type === 'image/heif' || file.name.toLowerCase().endsWith('.heic') || file.name.toLowerCase().endsWith('.heif')) {
+    return {
+      valid: false,
+      error: 'HEIC/HEIF photos are not supported. Please convert your photo to JPEG format first. You can do this by:\n1. Opening the photo in your phone\'s Photos app\n2. Tapping "Share" and selecting "Copy as JPEG" or using a converter app\n3. Or taking the photo in JPEG format instead of HEIC'
+    };
+  }
+
   // Check file size (more generous limit for fallback)
   const maxSize = 10 * 1024 * 1024; // 10MB (increased from 5MB)
   if (file.size > maxSize) {
