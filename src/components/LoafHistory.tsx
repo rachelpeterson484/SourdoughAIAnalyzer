@@ -89,8 +89,8 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
             key={star}
             className={`w-4 h-4 ${
               star <= rating
-                ? 'fill-yellow-400 text-yellow-400'
-                : 'text-gray-300'
+                ? 'fill-crust-500 text-crust-500'
+                : 'text-bakery-300'
             }`}
           />
         ))}
@@ -100,8 +100,8 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
 
   if (loading) {
     return (
-      <div className="text-center py-8">
-        <div className="text-gray-500">Loading loaves...</div>
+      <div className="text-center py-8 text-bakery-600">
+        <div>Loading loaves...</div>
       </div>
     );
   }
@@ -109,15 +109,15 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">My Loaves</h2>
-        <Button onClick={() => setShowLoafForm(true)}>
+        <h2 className="text-2xl font-bold text-bakery-900 font-serif">My Loaves</h2>
+        <Button onClick={() => setShowLoafForm(true)} className="bg-bakery-600 hover:bg-bakery-700 text-white">
           <Plus className="w-4 h-4 mr-2" />
           Add Loaf
         </Button>
       </div>
 
       {showLoafForm && (
-        <Card>
+        <Card className="border-bakery-200">
           <CardContent className="p-6">
             <LoafForm onClose={() => setShowLoafForm(false)} />
           </CardContent>
@@ -125,10 +125,13 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
       )}
 
       {loaves.length === 0 ? (
-        <Card>
+        <Card className="border-bakery-200">
           <CardContent className="text-center py-8">
-            <div className="text-gray-500 mb-4">No loaves baked yet. Record your first bake!</div>
-            <Button onClick={() => setShowLoafForm(true)}>
+            <div className="mx-auto w-16 h-16 bg-bakery-100 rounded-full flex items-center justify-center mb-4">
+              <Wheat className="w-8 h-8 text-bakery-500" />
+            </div>
+            <p className="text-bakery-600 mb-4">Your baking journey starts here. Log your first loaf!</p>
+            <Button onClick={() => setShowLoafForm(true)} className="bg-bakery-600 hover:bg-bakery-700 text-white">
               <Plus className="w-4 h-4 mr-2" />
               Add First Loaf
             </Button>
@@ -137,12 +140,12 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {loaves.map((loaf: Loaf) => (
-            <Card key={loaf.id} className="hover:shadow-md transition-shadow">
+            <Card key={loaf.id} className="hover:shadow-lg hover:-translate-y-1 transition-all duration-200 border-bakery-200">
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
-                    <CardTitle className="text-lg">{getRecipeName(loaf.recipeId)}</CardTitle>
-                    <CardDescription className="flex items-center mt-1">
+                    <CardTitle className="text-lg text-bakery-900">{getRecipeName(loaf.recipeId)}</CardTitle>
+                    <CardDescription className="flex items-center mt-1 text-bakery-600">
                       <Calendar className="w-4 h-4 mr-1" />
                       {formatDate(loaf.bakeDate)}
                     </CardDescription>
@@ -181,7 +184,7 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
               <CardContent className="space-y-4">
                 {/* Loaf Image - prioritize exterior photo, fallback to crumb photo */}
                 {loaf.exteriorImageUrl ? (
-                  <div className="w-full h-48 bg-gray-100 rounded-md overflow-hidden">
+                  <div className="w-full h-48 bg-bakery-100 rounded-md overflow-hidden">
                     <img
                       src={loaf.exteriorImageUrl}
                       alt={getRecipeName(loaf.recipeId)}
@@ -189,7 +192,7 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
                     />
                   </div>
                 ) : loaf.crumbImageUrl ? (
-                  <div className="w-full h-48 bg-gray-100 rounded-md overflow-hidden">
+                  <div className="w-full h-48 bg-bakery-100 rounded-md overflow-hidden">
                     <img
                       src={loaf.crumbImageUrl}
                       alt={`${getRecipeName(loaf.recipeId)} - Crumb`}
@@ -197,8 +200,8 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
                     />
                   </div>
                 ) : (
-                  <div className="w-full h-48 bg-gray-100 rounded-md flex items-center justify-center">
-                    <div className="text-gray-400 text-center">
+                  <div className="w-full h-48 bg-bakery-100 rounded-md flex items-center justify-center">
+                    <div className="text-bakery-400 text-center">
                       <Wheat className="w-12 h-12 mx-auto mb-2" />
                       <p className="text-sm">No photos</p>
                     </div>
@@ -207,7 +210,7 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
 
                 {/* Loaf Notes */}
                 {loaf.notes && (
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-bakery-600">
                     <p className="line-clamp-3">{loaf.notes}</p>
                   </div>
                 )}
@@ -218,7 +221,7 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
                     {loaf.inclusions.map((inclusion, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                        className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-bakery-100 text-bakery-700"
                       >
                         {inclusion.type} ({inclusion.amount}g)
                       </span>
@@ -227,7 +230,7 @@ export function LoafHistory({ onAnalyzeLoaf }: LoafHistoryProps) {
                 )}
 
                 {/* Recipe Info */}
-                <div className="text-xs text-gray-500 pt-2 border-t">
+                <div className="text-xs text-bakery-500 pt-2 border-t border-bakery-200">
                   <div className="flex justify-between">
                     <span>Baked: {formatDate(loaf.bakeDate)}</span>
                     {loaf.rating && <span>Rating: {loaf.rating}/5</span>}

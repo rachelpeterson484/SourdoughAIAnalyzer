@@ -20,6 +20,7 @@ import {
   getAuth, 
   onAuthStateChanged,
   signInWithPopup,
+  signInWithEmailAndPassword,
   GoogleAuthProvider,
   signOut,
   User
@@ -85,8 +86,6 @@ export const compressImage = (file: File, targetSizeKB: number = 500): Promise<s
               const sizeInBytes = result.length;
               const sizeInKB = Math.round(sizeInBytes / 1024);
               
-              console.log(`Image compressed: ${sizeInKB}KB (target: ${targetSizeKB}KB, original: ${Math.round(file.size / 1024)}KB)`);
-              
               // If still too large and we can reduce quality more, try again
               if (sizeInKB > targetSizeKB && targetSizeKB <= 500) {
                 // For crumb photos, try more aggressive compression
@@ -95,8 +94,6 @@ export const compressImage = (file: File, targetSizeKB: number = 500): Promise<s
                     const reader2 = new FileReader();
                     reader2.onload = () => {
                       const result2 = reader2.result as string;
-                      const sizeInKB2 = Math.round(result2.length / 1024);
-                      console.log(`Second attempt: ${sizeInKB2}KB`);
                       resolve(result2);
                     };
                     reader2.onerror = () => {
@@ -191,15 +188,10 @@ export class FirebaseStorage {
       // Listen for auth state changes
       onAuthStateChanged(this.auth, (user) => {
         this.currentUser = user;
-        if (user) {
-          this.userId = user.uid;
-        } else {
-          this.userId = null;
-        }
+        this.userId = user?.uid || null;
       });
 
       this.initialized = true;
-      console.log('Firebase initialized successfully');
     } catch (error) {
       console.error('Firebase initialization failed:', error);
       throw error;
@@ -226,6 +218,19 @@ export class FirebaseStorage {
       console.error('Google sign-in failed:', error);
       throw error;
     }
+  }
+
+  // Demo Account Sign-In (shared account for demo mode)
+  async signInDemo(): Promise<User> {
+    await this.ensureInitialized();
+    
+    const demoEmail = 'demo@sourdoughtracker.com';
+    const demoPassword = 'demo123';
+    
+    const result = await signInWithEmailAndPassword(this.auth, demoEmail, demoPassword);
+    this.currentUser = result.user;
+    this.userId = result.user.uid;
+    return result.user;
   }
 
   // Sign Out
@@ -552,8 +557,6 @@ export class FirebaseStorage {
       for (const loaf of localLoaves) {
         await this.saveLoaf(loaf);
       }
-
-      console.log('Data synced to Firebase successfully');
     } catch (error) {
       console.error('Failed to sync to Firebase:', error);
     }
